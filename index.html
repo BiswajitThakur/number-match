@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Missing Number</title>
+    <link href="style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="root">
+      <h2 class="my-heading">Missing Number Solver Game</h2>
+      <label id="lvl">
+        Choose Game Label
+        <select id="gm_lvl">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="heard">Heard</option>
+        </select>
+      </label>
+      <input
+        class="my-input"
+        type="number"
+        value=""
+        placeholder="Enter size of the game"
+      />
+      <button class="create-game">Create New</button>
+      <button class="reset">Reset</button>
+      <button class="solve">Solve</button>
+      <div id="my_game"></div>
+    </div>
+    <!--script type="module" src="main.js"></script-->
+    <script src="script.js"></script>
+  </body>
+</html>

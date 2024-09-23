@@ -1,0 +1,74 @@
+body {
+  color: #ffffff;
+  background-color: #191919;
+}
+
+table {
+  border: 1px solid silver;
+}
+
+table tr td {
+  border: 1px solid gray;
+  width: 75px;
+  height: 45px;
+  text-align: center;
+}
+
+table tr td:hover {
+  border: 1px dotted blue;
+  background-color: #171717;
+}
+
+#root {
+  display: grid;
+  gap: 1px;
+  grid-template-areas:
+    "h h h h h h"
+    "t t t i i ."
+    "t t t . . ."
+    "t t t l l l"
+    "t t t . . ."
+    "t t t c c ."
+    "t t t . . ."
+    "t t t r r ."
+    "t t t . . ."
+    "t t t s s ."
+    "t t t . . .";
+}
+
+.my-heading {
+  grid-area: h;
+  text-align: center;
+}
+.my-input {
+  grid-area: i;
+  padding: 5px;
+}
+
+.reset {
+  grid-area: r;
+  padding: 5px;
+}
+
+.solve {
+  grid-area: s;
+  padding: 5px;
+}
+#my_game {
+  grid-area: t;
+  padding: 5px;
+}
+.create-game {
+  grid-area: c;
+  padding: 5px;
+}
+#lvl {
+  grid-area: l;
+  padding: 5px;
+}
+
+input,
+button {
+  background-color: #303030;
+  color: yellow;
+}
