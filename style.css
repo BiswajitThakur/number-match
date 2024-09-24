@@ -26,11 +26,11 @@ table tr td:hover {
     "h h h h h h"
     "t t t i i ."
     "t t t . . ."
-    "t t t l l l"
-    "t t t . . ."
     "t t t c c ."
     "t t t . . ."
     "t t t r r ."
+    "t t t . . ."
+    "t t t l l l"
     "t t t . . ."
     "t t t s s ."
     "t t t . . .";
@@ -62,7 +62,7 @@ table tr td:hover {
   grid-area: c;
   padding: 5px;
 }
-#lvl {
+.undo-redo {
   grid-area: l;
   padding: 5px;
 }

@@ -98,50 +98,53 @@ function select_rand_from_metrix(size) {
 function create_node_elm(val) {
   const t_or_f = Math.floor(Math.random() * 3) == 0 ? true : false;
   const attr_name = "data-is";
-  const input = document.createElement("input");
-  input.setAttribute(attr_name, val);
-  input.style.width = "100%";
-  //alert(input.parentElement.height);
-  // input.style.height = input.parentElement.style.height;
-  input.style.overflow = "hidden";
-  input.style.textAlign = "center";
-  const elem = document.createElement("span");
-  elem.setAttribute(attr_name, val);
-  elem.textContent = val;
-  elem.style.width = "100%";
+
   if (!t_or_f) {
-    input.style.display = "none";
+    const elem = document.createElement("span");
+    elem.setAttribute(attr_name, val);
+    elem.textContent = val;
+    elem.style.width = "100%";
+    return elem;
   } else {
-    elem.style.display = "none";
+    const input = document.createElement("input");
+    input.setAttribute(attr_name, val);
+    input.style.width = "100%";
+    input.style.overflow = "hidden";
+    input.style.textAlign = "center";
+    return input;
   }
-  return [input, elem];
 }
+
+let game_table = null;
+let game_elements = null;
 
 function createRoot(size) {
   if (size > 13) {
     alert("Size must be less then or equal to 13");
     return;
   }
-  let old_tbl = document.getElementById("my-table");
   const g = document.getElementById("my_game");
-  if (old_tbl) {
-    old_tbl.remove();
+  if (game_table) {
+    game_table.remove();
   }
   let root = document.createElement("table");
   root.id = "my-table";
   let my_table = create_mx(size);
+  game_elements = [];
   my_table.forEach((m) => {
     let tr = document.createElement("tr");
+    let tr_arr = [];
     m.forEach((n) => {
       let td = document.createElement("td");
-      //td.innerHTML = n;
       const e = create_node_elm(n);
-      td.appendChild(e[0]);
-      td.appendChild(e[1]);
+      td.appendChild(e);
+      tr_arr.push(e);
       tr.appendChild(td);
     });
     root.appendChild(tr);
+    game_elements.push(tr_arr);
   });
+  game_table = root;
   g.appendChild(root);
 }
 
@@ -154,15 +157,47 @@ my_input.addEventListener("keyup", (e) => {
 });
 
 document.querySelector("#root > .create-game").addEventListener("click", () => {
-  const user_input = parseInt(my_input.value.trim());
+  const value = my_input.value.trim();
+  if (/^\s*$/.test(value)) {
+    return;
+  }
+  const user_input = parseInt(value);
   createRoot(user_input);
-  const level = document.getElementById("gm_lvl");
+  // console.log(game_elements);
 });
 
 document.querySelector("#root > .reset").addEventListener("click", () => {
-  alert("TODO");
+  if (!game_elements || !Array.isArray(game_elements)) {
+    return;
+  }
+  game_elements.forEach((m) => {
+    m.forEach((n) => {
+      if (n.tagName === "INPUT") {
+        n.value = "";
+      }
+    });
+  });
 });
 
 document.querySelector("#root > .solve").addEventListener("click", () => {
+  if (!game_elements || !Array.isArray(game_elements)) {
+    return;
+  }
+  game_elements.forEach((m) => {
+    m.forEach((n) => {
+      if (n.tagName === "INPUT") {
+        n.value = n.getAttribute("data-is");
+      }
+    });
+  });
+});
+
+let undo = [];
+let redo = [];
+
+document.getElementById("undo").addEventListener("click", () => {
+  alert("TODO");
+});
+document.getElementById("redo").addEventListener("click", () => {
   alert("TODO");
 });
