@@ -1,5 +1,12 @@
 "use strict";
 
+let input_history = [];
+let undo = [];
+
+function push_input_history(elm) {
+  input_history.push([elm.value, elm]);
+}
+
 function random_select(elem) {
   if (!Array.isArray(elem)) {
     throw new Error("input elem must be array.");
@@ -108,9 +115,13 @@ function create_node_elm(val) {
   } else {
     const input = document.createElement("input");
     input.setAttribute(attr_name, val);
+    input.setAttribute("type", "number");
     input.style.width = "100%";
     input.style.overflow = "hidden";
     input.style.textAlign = "center";
+    input.addEventListener("change", () => {
+      push_input_history(input);
+    });
     return input;
   }
 }
@@ -161,9 +172,11 @@ document.querySelector("#root > .create-game").addEventListener("click", () => {
   if (/^\s*$/.test(value)) {
     return;
   }
+  input_history = [];
+  undo = [];
   const user_input = parseInt(value);
   createRoot(user_input);
-  // console.log(game_elements);
+  window.location.hash = encode_game(game_elements);
 });
 
 document.querySelector("#root > .reset").addEventListener("click", () => {
@@ -192,12 +205,46 @@ document.querySelector("#root > .solve").addEventListener("click", () => {
   });
 });
 
-let undo = [];
-let redo = [];
-
 document.getElementById("undo").addEventListener("click", () => {
-  alert("TODO");
+  if (input_history.length === 0) {
+    return;
+  }
+  const poped = input_history.pop();
+  poped[1].value = "";
+  undo.push(poped);
 });
 document.getElementById("redo").addEventListener("click", () => {
-  alert("TODO");
+  if (undo.length === 0) {
+    return;
+  }
+  const poped = undo.pop();
+  poped[1].value = poped[0];
+  input_history.push(poped);
+});
+
+function encode_game(elm) {
+  let raws = [];
+  elm.forEach((e) => {
+    let raw = [];
+    e.forEach((v) => {
+      if (v.tagName === "INPUT") {
+        raw.push(`i${v.getAttribute("data-is")}`);
+      } else {
+        raw.push(`${v.getAttribute("data-is")}`);
+      }
+    });
+    raws.push(raw.join("|"));
+  });
+  return btoa(raws.join("-"));
+}
+
+document.getElementById("share").addEventListener("click", () => {
+  if (!game_elements) {
+    alert("Please create new game, then share.");
+    return;
+  }
+  let loc = window.location;
+  loc.search = "";
+  loc.hash = encode_game(game_elements);
+  //alert(loc.toString());
 });
