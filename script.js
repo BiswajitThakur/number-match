@@ -1,5 +1,7 @@
 "use strict";
 
+let game_table = null;
+let game_elements = null;
 let input_history = [];
 let undo = [];
 
@@ -126,8 +128,81 @@ function create_node_elm(val) {
   }
 }
 
-let game_table = null;
-let game_elements = null;
+function import_game(val) {
+  if (typeof val != "string") {
+    return;
+  }
+  let raws = atob(val.split("$")[0].replace(/^#/, ""))
+    .split("-")
+    .map((v) => v.split("|"));
+  if (raws.length < 2) {
+    return;
+  }
+  let root = document.createElement("table");
+  root.id = "my-table";
+  game_elements = [];
+  raws.forEach((raw) => {
+    let table_raw = document.createElement("tr");
+    let rr = [];
+    raw.forEach((v) => {
+      let td = document.createElement("td");
+      if (/^i\d+$/.test(v)) {
+        let input = document.createElement("input");
+        input.setAttribute("data-is", v.replace(/^i/, ""));
+        input.setAttribute("type", "number");
+        input.style.width = "100%";
+        input.style.overflow = "hidden";
+        input.style.textAlign = "center";
+        input.addEventListener("change", () => {
+          push_input_history(input);
+        });
+        rr.push(input);
+        td.appendChild(input);
+        table_raw.appendChild(td);
+        return;
+      } else if (/^\d+$/.test(v)) {
+        const elem = document.createElement("span");
+        elem.setAttribute("data-is", v);
+        elem.textContent = v;
+        elem.style.width = "100%";
+        rr.push(elem);
+        td.appendChild(elem);
+        table_raw.appendChild(td);
+        return;
+      }
+      throw new Error("ERROR: invalid hash.");
+    });
+    game_elements.push(rr);
+    root.appendChild(table_raw);
+  });
+  const g = document.getElementById("my_game");
+  if (game_table) {
+    game_table.remove();
+  }
+  game_table = root;
+  g.appendChild(root);
+}
+try {
+  import_game(window.location.hash);
+} catch (err) {
+  console.error(err);
+}
+
+function encode_game(elm) {
+  let raws = [];
+  elm.forEach((e) => {
+    let raw = [];
+    e.forEach((v) => {
+      if (v.tagName === "INPUT") {
+        raw.push(`i${v.getAttribute("data-is")}`);
+      } else {
+        raw.push(`${v.getAttribute("data-is")}`);
+      }
+    });
+    raws.push(raw.join("|"));
+  });
+  return btoa(raws.join("-"));
+}
 
 function createRoot(size) {
   if (size > 13) {
@@ -222,29 +297,44 @@ document.getElementById("redo").addEventListener("click", () => {
   input_history.push(poped);
 });
 
-function encode_game(elm) {
-  let raws = [];
-  elm.forEach((e) => {
-    let raw = [];
-    e.forEach((v) => {
-      if (v.tagName === "INPUT") {
-        raw.push(`i${v.getAttribute("data-is")}`);
-      } else {
-        raw.push(`${v.getAttribute("data-is")}`);
-      }
-    });
-    raws.push(raw.join("|"));
-  });
-  return btoa(raws.join("-"));
-}
-
-document.getElementById("share").addEventListener("click", () => {
+const share = document.getElementById("share");
+share.addEventListener("click", () => {
   if (!game_elements) {
     alert("Please create new game, then share.");
     return;
   }
-  let loc = window.location;
-  loc.search = "";
+  let loc = new URL(window.location.href);
   loc.hash = encode_game(game_elements);
-  //alert(loc.toString());
+  navigator.clipboard
+    .writeText(loc.toString())
+    .then(() => {
+      share.textContent = "Link copied";
+      setTimeout(() => {
+        share.textContent = "Share";
+      }, 4000);
+    })
+    .catch((_) => {
+      alert("Faild to copy link");
+    });
+});
+
+document.getElementById("varify").addEventListener("click", () => {
+  if (!game_elements || !Array.isArray(game_elements)) {
+    return;
+  }
+  let is_win = true;
+  game_elements.forEach((m) => {
+    m.forEach((n) => {
+      if (n.tagName === "INPUT") {
+        if (n.value !== n.getAttribute("data-is")) {
+          is_win = false;
+        }
+      }
+    });
+  });
+  if (is_win) {
+    alert("You win");
+  } else {
+    alert("Wrong input");
+  }
 });
