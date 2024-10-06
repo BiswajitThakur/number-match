@@ -1,8 +1,11 @@
+html,
 body {
   color: #ffffff;
   background-color: #191919;
+  width: 100%;
+  user-select: none;
 }
-
+/*
 table {
   border: 1px solid silver;
 }
@@ -66,9 +69,82 @@ table tr td:hover {
   grid-area: l;
   padding: 5px;
 }
-
+*/
 input,
-button {
-  background-color: #303030;
+button,
+label {
+  background-color: #202020;
   color: yellow;
+  border-radius: 5px;
+  font-size: 1.1rem;
+}
+button {
+  border: none;
+}
+select,
+option {
+  background-color: #202020;
+  border-radius: 5px;
+  color: tomato;
+  font-size: 1rem;
+}
+#game {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  border: 1px solid blue;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.game-raws {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.game-raws > input {
+  border: 1px solid blue;
+  text-align: center;
+  width: 10rem;
+  max-width: 80px;
+  min-height: 30px;
+}
+input[disabled] {
+  background-color: #101010;
+  color: green;
+}
+
+input[disabled]:hover {
+  font-weight: bold;
+  border: 1px dotted yellow;
+}
+
+.options {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 4px;
+  justify-content: center;
+  border: 1px solid blue;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.game-btns {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  gap: 40px;
+  justify-content: center;
+  border: 1px solid blue;
+  max-width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
 }

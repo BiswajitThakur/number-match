@@ -7,27 +7,42 @@
     <link href="style.css" rel="stylesheet" />
   </head>
   <body>
-    <div id="root">
-      <h2 class="my-heading">Sudoku Puzzle Game</h2>
-      <input
-        class="my-input"
-        type="number"
-        value=""
-        placeholder="Enter size of the game"
-      />
-      <button class="create-game">Create New</button>
-      <button class="reset">Reset</button>
-      <div class="undo-redo">
-        <button id="undo">Undo</button>
-        <button id="redo">Redo</button>
+    <div class="main">
+      <div id="game_cnt"></div>
+      <div class="options">
+        <div class="game-btns" id="timer">Time</div>
+        <div class="game-btns">
+          <button id="undo">Undo</button>
+          <button id="redo">Redo</button>
+          <button id="solve">Solve</button>
+          <button id="reset">Reset</button>
+          <button id="share">Share</button>
+          <button id="varify">Varify</button>
+        </div>
+        <div class="game-btns">
+          <input
+            id="create_new_inp"
+            type="number"
+            name="create_new"
+            value=""
+            placeholder="Enter size of the game"
+          />
+          <div>
+            <label for="game_lvl">Choose a Level:</label>
+            <select name="game_lvl" id="game_lvl">
+              <option value="1">Easy</option>
+              <option value="2">Medium</option>
+              <option value="3">Difficult</option>
+            </select>
+          </div>
+          <button id="create_new">Create New</button>
+        </div>
       </div>
-      <button class="solve">Solve</button>
-      <div id="my_game"></div>
     </div>
-    <div style="color: orange">This game is under development.</div>
-    <br />
-    <button id="share">Share</button>
-    <button id="varify">Varify</button>
     <script src="script.js"></script>
   </body>
 </html>
+
+<!--
+http://127.0.0.1:8080/#aTV8M3wyfGk0fGkxLWkyfDV8aTF8aTN8aTQtNHxpMXxpM3xpNXxpMi1pMXxpNHw1fDJ8aTMtaTN8Mnw0fGkxfGk1
+-->
