@@ -8,6 +8,8 @@ let game_elements = null;
 let input_history = [];
 let undo = [];
 
+let create_time = null;
+
 function push_input_history(elm) {
   input_history.push([elm.value, elm]);
 }
@@ -175,6 +177,28 @@ function gen_lvl(size, lvl) {
   };
 }
 
+function set_lvl_msg(lvl) {
+  if (lvl < 1 && lvl > 3) {
+    throw new Error("lvl must be 1 to 3");
+  }
+  const elm = document.getElementById("d_lvl");
+  const cls = ["msg-easy", "msg-medium", "msg-difficult"];
+  if (lvl == 1) {
+    elm.classList.remove(cls[1]);
+    elm.classList.remove(cls[2]);
+    elm.classList.add(cls[0]);
+  } else if (lvl == 2) {
+    elm.classList.remove(cls[0]);
+    elm.classList.remove(cls[2]);
+    elm.classList.add(cls[1]);
+  } else {
+    elm.classList.remove(cls[0]);
+    elm.classList.remove(cls[1]);
+    elm.classList.add(cls[2]);
+  }
+  elm.textContent = `Game Level: ${["Easy", "Medium", "Difficult"][lvl - 1]}`;
+}
+
 function create_node_elm(val, lvl) {
   const t_or_f = Math.floor(Math.random() * lvl) == 0 ? true : false;
   const attr_name = "data-is";
@@ -199,7 +223,8 @@ function import_game(val) {
   if (typeof val != "string") {
     return;
   }
-  let raws = atob(val.split("$")[0].replace(/^#/, ""))
+  const url_hash = val.replace(/^#/, "").split("$");
+  let raws = atob(url_hash[0])
     .split("-")
     .map((v) => v.split("|"));
   if (raws.length < 2) {
@@ -217,6 +242,8 @@ function import_game(val) {
       const val = v.replace(/^i/, "");
       td.setAttribute("data-is", val);
       td.setAttribute("type", "number");
+      td.style.width = "100%";
+      td.style.overflow = "hidden";
       td.style.textAlign = "center";
       if (/^i\d+$/.test(v)) {
         td.addEventListener("change", () => {
@@ -240,6 +267,11 @@ function import_game(val) {
   game_table = root;
   const g = document.getElementById("game_cnt");
   g.appendChild(root);
+  document.getElementById("ctrls").style.display = "flex";
+  if (url_hash.length > 1) {
+    const obj = JSON.parse(atob(url_hash[1]));
+    set_lvl_msg(obj.l);
+  }
   return elements;
 }
 
@@ -268,6 +300,7 @@ function createRoot(size, lvl) {
   game_table = root;
   const g = document.getElementById("game_cnt");
   g.appendChild(root);
+
   return elements;
 }
 
@@ -298,10 +331,16 @@ document.getElementById("create_new").addEventListener("click", () => {
   undo = [];
   const user_input = parseInt(value);
   const lvl = document.getElementById("game_lvl").value;
-  //alert(lvl);
   const elm = createRoot(user_input, parseInt(lvl));
+  document.getElementById("ctrls").style.display = "flex";
+  let obj = {
+    l: lvl, // level of game
+  };
+  const tm = ""; // new Date();
+  create_time = tm;
   game_elements = elm;
-  window.location.hash = encode_game(elm);
+  set_lvl_msg(obj.l);
+  window.location.hash = encode_game(elm) + "$" + btoa(JSON.stringify(obj));
 });
 
 document.getElementById("reset").addEventListener("click", () => {

@@ -1,75 +1,8 @@
-html,
 body {
   color: #ffffff;
   background-color: #191919;
-  width: 100%;
   user-select: none;
 }
-/*
-table {
-  border: 1px solid silver;
-}
-
-table tr td {
-  border: 1px solid gray;
-  width: 75px;
-  height: 45px;
-  text-align: center;
-}
-
-table tr td:hover {
-  border: 1px dotted blue;
-  background-color: #171717;
-}
-
-#root {
-  display: grid;
-  gap: 1px;
-  grid-template-areas:
-    "h h h h h h"
-    "t t t i i ."
-    "t t t . . ."
-    "t t t c c ."
-    "t t t . . ."
-    "t t t r r ."
-    "t t t . . ."
-    "t t t l l l"
-    "t t t . . ."
-    "t t t s s ."
-    "t t t . . .";
-}
-
-.my-heading {
-  grid-area: h;
-  text-align: center;
-}
-.my-input {
-  grid-area: i;
-  padding: 5px;
-}
-
-.reset {
-  grid-area: r;
-  padding: 5px;
-}
-
-.solve {
-  grid-area: s;
-  padding: 5px;
-}
-#my_game {
-  grid-area: t;
-  padding: 5px;
-}
-.create-game {
-  grid-area: c;
-  padding: 5px;
-}
-.undo-redo {
-  grid-area: l;
-  padding: 5px;
-}
-*/
 input,
 button,
 label {
@@ -107,13 +40,11 @@ option {
   justify-content: center;
   align-items: flex-start;
 }
-
 .game-raws > input {
   border: 1px solid blue;
   text-align: center;
-  width: 10rem;
+  /* width: 10rem;*/
   max-width: 80px;
-  min-height: 30px;
 }
 input[disabled] {
   background-color: #101010;
@@ -124,7 +55,6 @@ input[disabled]:hover {
   font-weight: bold;
   border: 1px dotted yellow;
 }
-
 .options {
   display: flex;
   align-items: flex-start;
@@ -141,10 +71,14 @@ input[disabled]:hover {
   display: flex;
   align-items: flex-start;
   flex-direction: row;
-  gap: 40px;
+  gap: 8px;
   justify-content: center;
   border: 1px solid blue;
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
+}
+
+#ctrls {
+  display: none;
 }
