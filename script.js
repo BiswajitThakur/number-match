@@ -413,20 +413,32 @@ document.getElementById("varify").addEventListener("click", () => {
   if (!game_elements || !Array.isArray(game_elements)) {
     return;
   }
-  let is_win = true;
+  let win = true;
+  const len = game_elements.length;
+  const total = ((len + 1) * len) / 2;
   game_elements.forEach((m) => {
+    let raw = new Set();
+    let sum_of_raw = 0;
     m.forEach((n) => {
-      if (!n.disabled) {
-        if (n.value !== n.getAttribute("data-is")) {
-          is_win = false;
-        }
+      let v = 0;
+      if (n.disabled) {
+        v = parseInt(n.getAttribute("data-is"));
+      } else {
+        v = parseInt(n.value);
       }
+      if (isNaN(v) || v < 0 || v > len || raw.has(v)) {
+        win = false;
+      }
+      raw.add(v);
+      sum_of_raw += v;
     });
+    if (raw.size != len || sum_of_raw != total) {
+      win = false;
+    }
   });
-  alert("This features is under development.\nIt's not 100% accurate.");
-  if (is_win) {
+  if (win) {
     alert("You win");
   } else {
-    alert("Wrong input");
+    alert("Wrong Input...");
   }
 });

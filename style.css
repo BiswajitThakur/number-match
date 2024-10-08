@@ -1,33 +1,52 @@
 body {
   color: #ffffff;
-  background-color: #191919;
+  background-color: #17202a;
   user-select: none;
 }
 input,
 button,
 label {
   background-color: #202020;
-  color: yellow;
+  color: #d35400;
   border-radius: 5px;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
+
 button {
-  border: none;
+  border: 1px solid green;
 }
 select,
 option {
   background-color: #202020;
   border-radius: 5px;
-  color: tomato;
+  color: #d35400;
   font-size: 1rem;
+  border: 1px solid green;
 }
+
+.game-raws > input {
+  font-size: 1.2rem;
+  color: #c36241;
+}
+
+button:hover {
+  background-color: #151515;
+}
+
+a,
+a:hover,
+a:active {
+  color: #665d1e;
+  text-align: center;
+  text-decoration: none;
+}
+
 #game {
   display: flex;
   align-items: flex-start;
   flex-direction: column;
   gap: 4px;
   justify-content: center;
-  border: 1px solid blue;
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -43,12 +62,16 @@ option {
 .game-raws > input {
   border: 1px solid blue;
   text-align: center;
-  /* width: 10rem;*/
   max-width: 80px;
 }
+
+.game-raws > input:hover {
+  border: 1px dotted red;
+}
+
 input[disabled] {
-  background-color: #101010;
-  color: green;
+  background-color: #101010 !important;
+  color: green !important;
 }
 
 input[disabled]:hover {
@@ -61,7 +84,6 @@ input[disabled]:hover {
   flex-direction: column;
   gap: 4px;
   justify-content: center;
-  border: 1px solid blue;
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -73,7 +95,6 @@ input[disabled]:hover {
   flex-direction: row;
   gap: 8px;
   justify-content: center;
-  border: 1px solid blue;
   max-width: fit-content;
   margin-left: auto;
   margin-right: auto;
@@ -81,4 +102,24 @@ input[disabled]:hover {
 
 #ctrls {
   display: none;
+}
+
+#create_new_inp {
+  border: 1px solid green;
+}
+
+.msg-easy {
+  font-size: 1rem;
+  color: #2471a3;
+}
+
+.msg-medium {
+  font-size: 1.1rem;
+  color: #8e44ad;
+}
+
+.msg-difficult {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #c70039;
 }
