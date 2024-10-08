@@ -396,8 +396,12 @@ share.addEventListener("click", () => {
   }
   let loc = new URL(window.location.href);
   loc.hash = encode_game(game_elements);
+  const lvl = document.getElementById("game_lvl").value;
+  let obj = {
+    l: lvl, // level of game
+  };
   navigator.clipboard
-    .writeText(loc.toString())
+    .writeText(loc.toString() + "$" + btoa(JSON.stringify(obj)))
     .then(() => {
       share.textContent = "Link copied";
       setTimeout(() => {
